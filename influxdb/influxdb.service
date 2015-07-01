@@ -1,0 +1,23 @@
+[Unit]
+Description=influxdb
+
+After=docker.service
+#Requires=docker_configs.mount
+
+[Service]
+TimeoutStartSec=0
+
+# Change killmode from "control-group" to "none" to let Docker remove
+# work correctly.
+KillMode=none
+
+ExecStartPre=-/usr/bin/docker kill influxdb
+ExecStartPre=-/usr/bin/docker rm influxdb
+ExecStart=/usr/bin/docker run -p 8083:8083 -p 8086:8086  --hostname="influxdb" --name influxdb kubernetes/heapster_influxdb:v0.3
+
+Restart=always
+RestartSec=5
+
+# Stop
+ExecStop=/usr/bin/docker stop influxdb
+

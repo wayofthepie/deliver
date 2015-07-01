@@ -1,0 +1,34 @@
+[Unit]
+Description=heapster
+
+After=docker.service
+After=influxdb.service
+
+Requires=docker.service
+Requires=influxdb.service
+
+[Service]
+TimeoutStartSec=0
+
+# Change killmode from "control-group" to "none" to let Docker remove
+# work correctly.
+KillMode=none
+
+ExecStartPre=-/usr/bin/docker kill heapster
+ExecStartPre=-/usr/bin/docker rm heapster
+ExecStart=/bin/bash -c "/usr/bin/docker run \
+    --name heapster \
+    --link influxdb:influxdb
+    kubernetes/heapster:v0.13.0 \
+    --source=\"cadvisor:coreos?fleetEndpoint=http://172.17.8.101:4001&cadvisorPort=4194\" \
+    --sink='influxdb:http://influxdb:8086'"
+
+Restart=always
+RestartSec=5
+
+# Stop
+ExecStop=/usr/bin/docker stop heapster
+
+[X-Fleet]
+X-ConditionMachineOf=influxdb.service
+
