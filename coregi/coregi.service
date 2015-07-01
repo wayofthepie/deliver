@@ -1,0 +1,22 @@
+[Unit]
+Description=CoreGI
+After=docker.service
+Requires=docker.service
+
+[Service]
+EnvironmentFile=/etc/environment
+User=core
+
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill coregi
+ExecStartPre=-/usr/bin/docker rm coregi
+ExecStartPre=/usr/bin/docker pull yodlr/coregi:latest
+ExecStart=/usr/bin/docker run --name coregi \
+      -p 3000:3000 \
+      -e ETCD_HOST=10.2.42.1 \
+      -e FLEET_ENDPOINT="http://10.1.42.1:4001" \
+      yodlr/coregi:latest
+ExecStop=/usr/bin/docker stop coregi
+
+[X-Fleet]
+Global=true
