@@ -8,7 +8,9 @@ Requires=docker.service
 
 [Service]
 TimeoutStartSec=0
-ExecStartPre=/usr/bin/docker pull jenkins
+ExecStartPre=/usr/bin/docker pull jenkins:1.596.2
 ExecStartPre=-/usr/bin/docker rm jenkins
-ExecStart=/usr/bin/docker run --rm --name jenkins-%i -p 808%i:8080 -p 5000%i:50000 jenkins
+ExecStart=/usr/bin/docker run --rm --name jenkins-%i -p 808%i:8080 -p 5000%i:50000 jenkins:1.596.2
 ExecStop=/usr/bin/docker stop jenkins
+
+
