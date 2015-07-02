@@ -47,25 +47,27 @@ launch () {
 
 influxdb () {
     launch "influxdb.service"
-    wait_for_entry 600 influxdb '.*\{"status"\:"ok"\}.*'
+    wait_for_entry 300 influxdb '.*\{"status"\:"ok"\}.*'
 }
 
 cadvisor () {
     launch "cadvisor.service"
-    wait_for_entry 60 cadvisor '.*Started Analyzes resource usage.*'
+    wait_for_entry 300 cadvisor '.*Started Analyzes resource usage.*'
 }
 
 heapster () {
     launch "heapster.service"
-    wait_for_entry 60 heapster ".*Starting heapster on port 8082.*"
+    wait_for_entry 300 heapster ".*Starting heapster on port 8082.*"
 }
 
 grafana () {
     launch "grafana.service"
+    wait_for_entry 300 grafana ".*Listening on :.*"
 }
 
 coregi () {
     launch "coregi.service"
+    wait_for_entry 300 coregi ".*INFO success: coregi entered RUNNING state.*"
 }
 
 jenkins () {
