@@ -70,7 +70,12 @@ coregi () {
 
 jenkins () {
     launch "jenkins@1.service"
+    wait_for_entry 600 "jenkins@1" ".*INFO: Jenkins is fully up and running.*"
 }
+
+
+###############################################################################
+# Main
 
 # Find and submit all units
 find .. -type f -iname '*.service' -exec fleetctl submit {} \+
@@ -83,7 +88,7 @@ find .. -type f -iname '*.service' -exec fleetctl submit {} \+
 #   5. coregi
 #   6. jenkins
 
-influxdb && cadvisor && heapster &&\
+influxdb && cadvisor && heapster && \
     grafana && coregi && jenkins && {
 
     echo "Successfully initialized!"
