@@ -18,7 +18,7 @@ ExecStartPre=-/usr/bin/docker kill heapster
 ExecStartPre=-/usr/bin/docker rm heapster
 ExecStart=/bin/bash -c "/usr/bin/docker run \
     --name heapster \
-    --link influxdb:influxdb
+    --link influxdb:influxdb \
     kubernetes/heapster:v0.13.0 \
     --source=\"cadvisor:coreos?fleetEndpoint=http://172.17.8.101:4001&cadvisorPort=4194\" \
     --sink='influxdb:http://influxdb:8086'"
