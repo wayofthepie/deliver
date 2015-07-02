@@ -19,9 +19,7 @@ wait_for_entry () {
 
     journalctl -u $service -f | while read -t ${timeout} line; do
         echo ${line}
-        echo "Entry : ${entry}"
         if [[ ${line} =~ ${entry} ]]; then
-            echo "Found entry"
             # Vars set here do not propagate into function scope...
             touch success.tmp
             pkill -9 -P $$ journalctl
