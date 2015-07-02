@@ -20,7 +20,7 @@ ExecStart=/bin/bash -c "/usr/bin/docker run \
     --name heapster \
     --link influxdb:influxdb
     kubernetes/heapster:v0.13.0 \
-    --source=\"cadvisor:coreos?fleetEndpoint=http://172.17.8.101:4001&cadvisorPort=4194\" \
+    --source=\"cadvisor:coreos?fleetEndpoint=http://172.17.8.101:4001&cadvisorPort=2000\" \
     --sink='influxdb:http://influxdb:8086'"
 
 Restart=always

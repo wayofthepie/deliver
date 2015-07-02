@@ -52,10 +52,12 @@ influxdb () {
 
 cadvisor () {
     launch "cadvisor.service"
+    wait_for_entry 60 cadvisor '.*Started Analyzes resource usage.*'
 }
 
 heapster () {
     launch "heapster.service"
+    wait_for_entry 60 heapster ".*Starting heapster on port 8082.*"
 }
 
 grafana () {
